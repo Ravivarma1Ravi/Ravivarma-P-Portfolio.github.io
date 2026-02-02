@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ravivarma P | Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #05070a;
+            overflow-x: hidden;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass:hover {
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .hero-gradient {
+            background: radial-gradient(circle at 50% 50%, rgba(37, 99, 235, 0.15) 0%, transparent 50%);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float { animation: float 6s ease-in-out infinite; }
+    </style>
+</head>
+<body class="text-slate-300">
+
+    <nav class="fixed w-full z-50 glass border-b border-white/5 top-0">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-xl font-extrabold tracking-tighter text-white">RP<span class="text-blue-500">.</span></div>
+            <div class="hidden md:flex gap-8 text-sm font-medium uppercase tracking-widest">
+                <a href="#home" class="hover:text-blue-400 transition-colors">Home</a>
+                <a href="#about" class="hover:text-blue-400 transition-colors">About</a>
+                <a href="#projects" class="hover:text-blue-400 transition-colors">Projects</a>
+                <a href="#experience" class="hover:text-blue-400 transition-colors">Experience</a>
+                <a href="#contact" class="bg-blue-600/20 text-blue-400 border border-blue-500/30 px-4 py-1 rounded-full hover:bg-blue-600 hover:text-white transition-all duration-300">Connect</a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="min-h-screen flex items-center justify-center relative hero-gradient px-6 pt-20">
+        <div class="text-center max-w-4xl animate-float">
+            <h2 class="text-blue-500 font-mono mb-4 text-sm tracking-[0.3em] uppercase" data-aos="fade-down">Salesforce Developer @ Cognizant</h2>
+            <h1 class="text-5xl md:text-8xl font-extrabold text-white mb-6 leading-tight tracking-tighter" data-aos="zoom-in" data-aos-delay="200">
+                RAVIVARMA P
+            </h1>
+            <p id="summary" class="text-lg md:text-xl text-slate-400 leading-relaxed max-w-2xl mx-auto mb-10" data-aos="fade-up" data-aos-delay="400">
+                Certified Salesforce Developer specializing in <span class="text-white font-semibold">Vlocity (OmniStudio)</span> and <span class="text-white font-semibold">Agentforce</span>. 
+            </p>
+            <div class="flex flex-wrap justify-center gap-4" data-aos="fade-up" data-aos-delay="600">
+                <a href="mailto:ravivarma.p@cognizant.com" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-lg shadow-blue-500/20 hover:scale-105">Let's Talk</a>
+                <a href="https://github.com/Ravivarma1Ravi " target="_blank" class="glass text-white px-8 py-4 rounded-2xl font-bold border border-white/10 hover:scale-105 transition-all"><i class="fab fa-github mr-2"></i> GitHub</a>
+                <a href="https://www.salesforce.com/trailblazer/pzb5ob6cpe3h2nrpa8" target="_blank" class="glass text-white px-8 py-4 rounded-2xl font-bold border border-white/10 hover:scale-105 transition-all"><i class="fas fa-mountain mr-2"></i> Trailblazer</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-24 px-6 max-w-6xl mx-auto">
+        <div class="flex flex-col md:flex-row gap-16 items-center">
+            <div class="md:w-1/2" data-aos="fade-right">
+                <h3 class="text-4xl font-bold text-white mb-6">From Engineering Logic to <br><span class="text-blue-500">Salesforce Innovation</span></h3>
+                <p class="text-slate-400 leading-relaxed mb-6">
+                    As a Bachelor of Engineering graduate, I have always been driven by a solutions-oriented attitude. This foundation allowed me to transition seamlessly into the Salesforce ecosystem, bridging technical backend logic with user-centric design.
+                </p>
+                <p class="text-slate-400 leading-relaxed">
+                    My current focus at Cognizant is mastering <strong>Agentforce</strong> and <strong>OmniStudio</strong>. I thrive on replacing standard processes with guided, efficient workflows that drive real business value.
+                </p>
+            </div>
+            <div class="md:w-1/2 grid grid-cols-2 gap-4" data-aos="fade-left">
+                <div class="glass p-6 rounded-2xl">
+                    <h5 class="text-white font-bold mb-2">203 Rank</h5>
+                    <p class="text-slate-500 text-xs">Agentforce 360 League Achiever</p>
+                </div>
+                <div class="glass p-6 rounded-2xl">
+                    <h5 class="text-white font-bold mb-2">3+ Certs</h5>
+                    <p class="text-slate-500 text-xs">Certified Admin & Developer</p>
+                </div>
+                <div class="glass p-6 rounded-2xl">
+                    <h5 class="text-white font-bold mb-2">Insurance</h5>
+                    <p class="text-slate-500 text-xs">FSC Modernization Experience</p>
+                </div>
+                <div class="glass p-6 rounded-2xl">
+                    <h5 class="text-white font-bold mb-2">8.29 CGPA</h5>
+                    <p class="text-slate-500 text-xs">Mahendra Engineering College</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="py-24 px-6 max-w-4xl mx-auto">
+        <h3 class="text-3xl font-bold text-white mb-12 border-l-4 border-blue-600 pl-6" data-aos="fade-right">Key Projects</h3>
+        <div class="space-y-12">
+            <div class="glass p-8 rounded-3xl border border-blue-500/20 group" data-aos="fade-up">
+                <div class="flex flex-col md:flex-row justify-between items-start mb-4">
+                    <h4 class="text-2xl font-bold text-white group-hover:text-blue-400 transition-colors">Liberty Mutual Modernization</h4>
+                    <span class="mt-2 md:mt-0 text-[10px] font-mono px-3 py-1 bg-blue-500/10 text-blue-500 rounded-full border border-blue-500/20 uppercase">OmniStudio</span>
+                </div>
+                <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                    Transitioned from legacy Sales Cloud to Financial Services Cloud. Built guided processes using OmniScripts and FlexCards to modernize policy tracking and preference management.
+                </p>
+                <div class="flex flex-wrap gap-2">
+                    <span class="px-2 py-1 bg-white/5 rounded text-[10px]">DataRaptor</span>
+                    <span class="px-2 py-1 bg-white/5 rounded text-[10px]">Integration Procedures</span>
+                    <span class="px-2 py-1 bg-white/5 rounded text-[10px]">LWC</span>
+                </div>
+            </div>
+
+            <div class="glass p-8 rounded-3xl border border-white/5 group" data-aos="fade-up" data-aos-delay="200">
+                <div class="flex flex-col md:flex-row justify-between items-start mb-4">
+                    <h4 class="text-2xl font-bold text-white group-hover:text-blue-400 transition-colors">Cube-Sat Weather Forecasting</h4>
+                    <span class="mt-2 md:mt-0 text-[10px] font-mono px-3 py-1 bg-slate-800 text-slate-400 rounded-full border border-white/10 uppercase">IoT & Data</span>
+                </div>
+                <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                    Designed and built a system for real-time monitoring of atmospheric parameters like temperature and solar radiation using CubeSat technology.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience" class="py-24 px-6 max-w-4xl mx-auto">
+        <h3 class="text-3xl font-bold text-white mb-12 border-l-4 border-blue-600 pl-6" data-aos="fade-right">Professional Experience</h3>
+        <div class="space-y-12">
+            <div class="glass p-8 rounded-3xl border border-blue-500/20 group" data-aos="fade-up">
+                <div class="flex flex-col md:flex-row justify-between items-start mb-4">
+                    <div>
+                        <h4 class="text-2xl font-bold text-white group-hover:text-blue-400 transition-colors">Programmer Analyst Trainee</h4>
+                        <p class="text-blue-500 font-medium">Cognizant</p>
+                    </div>
+                    <span class="mt-2 md:mt-0 text-xs font-mono px-3 py-1 bg-blue-500/10 text-blue-500 rounded-full border border-blue-500/20 uppercase">2025 - Present</span>
+                </div>
+                <p class="text-slate-400 leading-relaxed">
+                    Developing dynamic interfaces with LWC and OmniScripts. Actively managing workflows in Agentforce for onboarding and marketing campaigns.
+                </p>
+            </div>
+
+            <div class="glass p-8 rounded-3xl border border-white/5 group" data-aos="fade-up" data-aos-delay="200">
+                <div class="flex flex-col md:flex-row justify-between items-start mb-4">
+                    <div>
+                        <h4 class="text-2xl font-bold text-white group-hover:text-blue-400 transition-colors">Embedded System Intern</h4>
+                        <p class="text-slate-400 font-medium">KaaShiv Info Tech</p>
+                    </div>
+                    <span class="mt-2 md:mt-0 text-xs font-mono px-3 py-1 bg-slate-800 text-slate-400 rounded-full border border-white/10 uppercase">2023</span>
+                </div>
+                <p class="text-slate-500 leading-relaxed">
+                    Focused on maximizing system performance using microprocessor-based hardware and embedded architecture.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="certifications" class="py-24 px-6 max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="glass p-6 rounded-3xl border border-yellow-500/20 text-center" data-aos="zoom-in">
+                <div class="text-yellow-500 text-4xl mb-4"><i class="fas fa-trophy"></i></div>
+                <h4 class="text-xl font-bold text-white mb-1">Agentforce 360</h4>
+                <p class="text-slate-400 text-sm italic">Ranked #203 | Team Astro</p>
+                <span class="text-[10px] font-mono px-3 py-1 bg-yellow-500/10 text-yellow-500 rounded-full uppercase">Jan 2026</span>
+            </div>
+            <div class="glass p-6 rounded-3xl border border-blue-500/20 text-center" data-aos="zoom-in" data-aos-delay="100">
+                <div class="text-blue-500 text-4xl mb-4"><i class="fas fa-certificate"></i></div>
+                <h4 class="text-xl font-bold text-white mb-1">OmniStudio Developer</h4>
+                <p class="text-slate-400 text-sm">Salesforce Certified</p>
+                <span class="text-[10px] font-mono px-3 py-1 bg-blue-500/10 text-blue-500 rounded-full uppercase">Nov 2025</span>
+            </div>
+            <div class="glass p-6 rounded-3xl border border-blue-500/20 text-center" data-aos="zoom-in" data-aos-delay="200">
+                <div class="text-blue-500 text-4xl mb-4"><i class="fas fa-user-shield"></i></div>
+                <h4 class="text-xl font-bold text-white mb-1">Platform Admin</h4>
+                <p class="text-slate-400 text-sm">Salesforce Certified</p>
+                <span class="text-[10px] font-mono px-3 py-1 bg-blue-500/10 text-blue-500 rounded-full uppercase">Jan 2026</span>
+            </div>
+            <div class="glass p-6 rounded-3xl border border-purple-500/20 text-center" data-aos="zoom-in" data-aos-delay="300">
+                <div class="text-purple-500 text-4xl mb-4"><i class="fas fa-robot"></i></div>
+                <h4 class="text-xl font-bold text-white mb-1">Agentforce Specialist</h4>
+                <p class="text-slate-400 text-sm">Salesforce Certified</p>
+                <span class="text-[10px] font-mono px-3 py-1 bg-purple-500/10 text-purple-500 rounded-full uppercase">Nov 2025</span>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact" class="py-20 glass border-t border-white/5 mt-24 text-center">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="flex justify-center gap-8 mb-12">
+                <a href="https://www.linkedin.com/in/ravivarma-p-6b18642b6" target="_blank" class="text-2xl hover:text-blue-500 transition-all hover:scale-125"><i class="fab fa-linkedin"></i></a>
+                <a href="mailto:ravivarma.p@cognizant.com" class="text-2xl hover:text-blue-500 transition-all hover:scale-125"><i class="fas fa-envelope"></i></a>
+                <a href="https://github.com/Ravivarma-P" target="_blank" class="text-2xl hover:text-blue-500 transition-all hover:scale-125"><i class="fab fa-github"></i></a>
+            </div>
+            <p class="text-slate-600 text-[10px] tracking-widest uppercase">RAVIVARMA P &copy; 2026. Salem, India</p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true, mirror: false });
+    </script>
+</body>
+</html>
