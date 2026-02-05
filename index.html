@@ -18,6 +18,9 @@
             overflow-x: hidden;
             /* 3D Context removed for a clean, flat look */
             perspective: none;
+            /* REMOVE ALL ANIMATIONS AND POPS */
+            animation: none !important;
+            transition: none !important;
         }
 
         /* STICKY HEADER CHANGE */
@@ -27,28 +30,26 @@
             left: 0;
             width: 100%;
             z-index: 9999;
-            background: rgba(5, 7, 10, 0.85); 
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: #05070a; /* solid for neatness */
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            transition: all 0.3s ease;
+            transition: none !important;
         }
 
         .glass {
             background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             /* preserve-3d removed for flat appearance */
             transform-style: flat;
+            /* No transitions or pops */
+            transition: none !important;
         }
 
         .glass:hover {
-            background: rgba(255, 255, 255, 0.07);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            /* 3D transform replaced with a simple clean vertical lift */
-            transform: translateY(-8px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+            /* Neat feedback: just a slight border color change, no popping or lifting */
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(59, 130, 246, 0.5);
+            transform: none !important;
+            box-shadow: none !important;
         }
 
         /* 3D Float inner elements disabled */
@@ -57,69 +58,60 @@
         }
 
         .hero-gradient {
-            background: radial-gradient(circle at 50% 50%, rgba(37, 99, 235, 0.15) 0%, transparent 50%);
+            background: radial-gradient(circle at 50% 50%, rgba(37, 99, 235, 0.1) 0%, transparent 60%);
         }
 
         @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0px); }
+            0% { transform: none; }
+            50% { transform: none; }
+            100% { transform: none; }
         }
-        .animate-float { animation: float 6s ease-in-out infinite; }
+        .animate-float { animation: none !important; }
         
         .profile-frame img {
-            filter: grayscale(30%);
-            transition: all 0.5s ease;
+            filter: none !important; 
+            transition: none !important;
             object-position: top;
             width: 100%;
-            max-width: 320px;
+            max-width: 300px;
             height: auto;
-            max-height: 400px;
+            border-radius: 1rem;
             object-fit: cover;
-            /* 3D transform removed for neatness */
             transform-style: flat;
         }
         .profile-frame:hover img {
-            filter: grayscale(0%);
-            transform: scale(1.03);
+            transform: none !important;
         }
 
-        /* Mobile Menu Transitions */
+        /* Mobile Menu */
         #mobile-menu {
             display: none;
-            opacity: 0;
-            transition: opacity 0.3s ease;
             position: absolute; 
             top: 100%;
             left: 0;
             width: 100%;
             z-index: 9998;
             background-color: #05070a;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
         #mobile-menu.active {
             display: flex;
-            opacity: 1;
         }
 
         #three-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
+            display: none !important; /* Removed for a simple clean background */
         }
 
         .text-3d {
-            /* Text shadow simplified to standard drop shadow for neatness */
-            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            /* Simplified text for professional neatness */
+            text-shadow: none !important;
         }
 
-        /* Responsive Fix for small devices */
-        @media (max-width: 640px) {
-            .text-3d { text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-            .glass { transform: none !important; } 
+        /* Essential Mobile Fixes */
+        @media (max-width: 768px) {
+            h1 { font-size: 3rem !important; }
+            section { padding-left: 1.5rem !important; padding-right: 1.5rem !important; }
+            .glass { padding: 1.5rem !important; }
         }
     </style>
 </head>
@@ -132,11 +124,11 @@
             <div class="text-xl font-extrabold tracking-tighter text-white">RP<span class="text-blue-500">.</span></div>
             
             <div class="hidden md:flex gap-8 text-sm font-medium uppercase tracking-widest text-slate-400">
-                <a href="#home" class="hover:text-blue-400 transition-colors">Home</a>
-                <a href="#about" class="hover:text-blue-400 transition-colors">About</a>
-                <a href="#projects" class="hover:text-blue-400 transition-colors">Projects</a>
-                <a href="#experience" class="hover:text-blue-400 transition-colors">Experience</a>
-                <a href="#contact" class="text-blue-500 hover:text-white transition-colors">Connect</a>
+                <a href="#home" class="hover:text-blue-400">Home</a>
+                <a href="#about" class="hover:text-blue-400">About</a>
+                <a href="#projects" class="hover:text-blue-400">Projects</a>
+                <a href="#experience" class="hover:text-blue-400">Experience</a>
+                <a href="#contact" class="text-blue-500 hover:text-white">Connect</a>
             </div>
 
             <button class="md:hidden text-white text-2xl focus:outline-none" onclick="toggleMenu()">
@@ -155,50 +147,50 @@
 
     <section id="home" class="min-h-screen flex items-center justify-center relative hero-gradient px-6 pt-12">
         <div class="text-center max-w-4xl animate-float">
-            <h2 class="text-blue-500 font-mono mb-4 text-[10px] md:text-sm tracking-[0.3em] uppercase" data-aos="fade-down">Salesforce Developer @ Cognizant</h2>
-            <h1 class="text-5xl md:text-8xl font-extrabold text-white mb-6 leading-tight tracking-tighter text-3d" data-aos="zoom-in" data-aos-delay="200">
+            <h2 class="text-blue-500 font-mono mb-4 text-[10px] md:text-sm tracking-[0.3em] uppercase" data-aos="none">Salesforce Developer @ Cognizant</h2>
+            <h1 class="text-5xl md:text-8xl font-extrabold text-white mb-6 leading-tight tracking-tighter text-3d" data-aos="none" data-aos-delay="0">
                 RAVIVARMA P
             </h1>
-            <p id="summary" class="text-base md:text-xl text-slate-400 leading-relaxed max-w-2xl mx-auto mb-10 px-2" data-aos="fade-up" data-aos-delay="400">
+            <p id="summary" class="text-base md:text-xl text-slate-400 leading-relaxed max-w-2xl mx-auto mb-10 px-2" data-aos="none" data-aos-delay="0">
                 Certified Salesforce Developer specializing in <span class="text-white font-semibold">Vlocity (OmniStudio)</span> and <span class="text-white font-semibold">Agentforce</span>. 
             </p>
-            <div class="flex flex-wrap justify-center gap-4" data-aos="fade-up" data-aos-delay="600">
-                <a href="mailto:ravivarma6110@gmail.com" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-lg shadow-blue-500/20 hover:scale-105 text-sm md:text-base">Let's Talk</a>
+            <div class="flex flex-wrap justify-center gap-4" data-aos="none" data-aos-delay="0">
+                <a href="mailto:ravivarma6110@gmail.com" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-bold transition-colors shadow-lg shadow-blue-500/20 text-sm md:text-base">Let's Talk</a>
                 
-                <a href="Ravivarma P CV.pdf" target="_blank" class="glass text-white px-8 py-4 rounded-2xl font-bold border border-white/10 hover:border-blue-500/50 hover:scale-105 transition-all text-sm md:text-base">
+                <a href="Ravivarma P CV.pdf" target="_blank" class="glass text-white px-8 py-4 rounded-xl font-bold border border-white/10 text-sm md:text-base" data-tilt>
                     <i class="fas fa-download mr-2 text-blue-400"></i> Resume
                 </a>
 
                 <div class="flex gap-4 w-full justify-center md:w-auto mt-2 md:mt-0">
-                    <a href="https://github.com/Ravivarma1Ravi" target="_blank" class="glass text-white p-4 rounded-2xl font-bold border border-white/10 hover:scale-105 transition-all"> <i class="fab fa-github"></i> &nbsp; Git Hub</a>
-                    <a href="https://www.salesforce.com/trailblazer/pzb5ob6cpe3h2nrpa8" target="_blank" class="glass text-white p-4 rounded-2xl font-bold border border-white/10 hover:scale-105 transition-all"> <i class="fas fa-mountain"></i> &nbsp; Salesforce Trailblazer</a>
+                    <a href="https://github.com/Ravivarma1Ravi" target="_blank" class="glass text-white p-4 rounded-xl font-bold border border-white/10" data-tilt> <i class="fab fa-github"></i> &nbsp; GitHub</a>
+                    <a href="https://www.salesforce.com/trailblazer/pzb5ob6cpe3h2nrpa8" target="_blank" class="glass text-white p-4 rounded-xl font-bold border border-white/10" data-tilt> <i class="fas fa-mountain"></i> &nbsp; Trailblazer</a>
                 </div>
             </div>
         </div>
     </section>
 
     <section id="gallery" class="py-16 md:py-24 px-6 max-w-6xl mx-auto">
-        <h3 class="text-2xl md:text-3xl font-bold text-white mb-12 border-l-4 border-blue-600 pl-6" data-aos="fade-right">Technical Showcase</h3>
+        <h3 class="text-2xl md:text-3xl font-bold text-white mb-12 border-l-4 border-blue-600 pl-6" data-aos="none">Technical Showcase</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div class="glass p-8 rounded-3xl group" data-aos="zoom-in">
+            <div class="glass p-8 rounded-3xl group" data-aos="none" data-tilt>
                 <div class="overflow-hidden rounded-2xl mb-6 h-40 md:h-48 bg-slate-900 flex items-center justify-center">
-                    <i class="fas fa-project-diagram text-blue-500 text-5xl md:text-6xl group-hover:scale-110 transition-transform"></i>
+                    <i class="fas fa-project-diagram text-blue-500 text-5xl md:text-6xl"></i>
                 </div>
                 <h4 class="text-xl font-bold text-white mb-3">OmniStudio Architecture</h4>
                 <p class="text-slate-500 text-sm leading-relaxed">Implementing complex DataRaptors and Integration Procedures to streamline data flows in FSC.</p>
             </div>
             
-            <div class="glass p-8 rounded-3xl group" data-aos="zoom-in" data-aos-delay="100">
+            <div class="glass p-8 rounded-3xl group" data-aos="none" data-aos-delay="0" data-tilt>
                 <div class="overflow-hidden rounded-2xl mb-6 h-40 md:h-48 bg-slate-900 flex items-center justify-center">
-                    <i class="fas fa-microchip text-purple-500 text-5xl md:text-6xl group-hover:scale-110 transition-transform"></i>
+                    <i class="fas fa-microchip text-purple-500 text-5xl md:text-6xl"></i>
                 </div>
                 <h4 class="text-xl font-bold text-white mb-3">Agentforce Config</h4>
                 <p class="text-slate-500 text-sm leading-relaxed">Configuring autonomous agents for automated user assistance and campaign triggers.</p>
             </div>
 
-            <div class="glass p-8 rounded-3xl group" data-aos="zoom-in" data-aos-delay="200">
+            <div class="glass p-8 rounded-3xl group" data-aos="none" data-aos-delay="0" data-tilt>
                 <div class="overflow-hidden rounded-2xl mb-6 h-40 md:h-48 bg-slate-900 flex items-center justify-center">
-                    <i class="fas fa-code-branch text-green-500 text-5xl md:text-6xl group-hover:scale-110 transition-transform"></i>
+                    <i class="fas fa-code-branch text-green-500 text-5xl md:text-6xl"></i>
                 </div>
                 <h4 class="text-xl font-bold text-white mb-3">LWC Customization</h4>
                 <p class="text-slate-500 text-sm leading-relaxed">Developing reactive interfaces with LWC for a seamless modern user experience.</p>
@@ -208,35 +200,31 @@
 
     <section id="about" class="py-16 md:py-24 px-6 max-w-6xl mx-auto">
         <div class="flex flex-col md:flex-row gap-12 md:gap-16 items-center">
-            <div class="w-full md:w-1/3 flex justify-center profile-frame" data-aos="fade-right">
-                <div class="relative group">
-                    <div class="absolute -inset-4 bg-blue-500/10 rounded-3xl blur-xl group-hover:bg-blue-500/20 transition duration-700"></div>
-                    <img src="Ravi.jpg" alt="Ravivarma P" class="relative rounded-3xl border border-white/10 shadow-2xl transition-all duration-500 mx-auto">
+            <div class="w-full md:w-1/3 flex justify-center profile-frame" data-aos="none">
+                <div class="relative group" data-tilt data-tilt-max="0" data-tilt-speed="0">
+                    <img src="Ravi.jpg" alt="Ravivarma P" class="relative rounded-2xl shadow-2xl mx-auto">
                 </div>
             </div>
-            <div class="w-full md:w-2/3" data-aos="fade-left">
+            <div class="w-full md:w-2/3" data-aos="none">
                 <h3 class="text-3xl md:text-4xl font-bold text-white mb-6 text-center md:text-left">From Engineering Logic to <br><span class="text-blue-500">Salesforce Innovation</span></h3>
                 <p class="text-slate-400 leading-relaxed mb-6 text-sm md:text-base">
                     As a Bachelor of Engineering graduate, I have always been driven by a solutions-oriented attitude. This foundation allowed me to transition seamlessly into the Salesforce ecosystem, bridging technical backend logic with user-centric design.
                 </p>
-                <p class="text-slate-400 leading-relaxed mb-8 text-sm md:text-base">
-                    My current focus at Cognizant is mastering <strong>Agentforce</strong> and <strong>OmniStudio</strong>. I thrive on replacing standard processes with guided, efficient workflows that drive real business value.
-                </p>
                 <div class="grid grid-cols-2 gap-4">
-                    <div class="glass p-4 md:p-6 rounded-2xl text-center md:text-left">
-                        <h5 class="text-white font-bold mb-1 md:mb-2 text-sm md:text-base">203 Rank</h5>
+                    <div class="glass p-4 md:p-6 rounded-2xl text-center md:text-left" data-tilt>
+                        <h5 class="text-white font-bold mb-1 text-sm md:text-base">203 Rank</h5>
                         <p class="text-slate-500 text-[10px] md:text-xs">Agentforce 360 League</p>
                     </div>
-                    <div class="glass p-4 md:p-6 rounded-2xl text-center md:text-left">
-                        <h5 class="text-white font-bold mb-1 md:mb-2 text-sm md:text-base">3+ Certs</h5>
+                    <div class="glass p-4 md:p-6 rounded-2xl text-center md:text-left" data-tilt>
+                        <h5 class="text-white font-bold mb-1 text-sm md:text-base">3+ Certs</h5>
                         <p class="text-slate-500 text-[10px] md:text-xs">Certified Developer</p>
                     </div>
-                    <div class="glass p-4 md:p-6 rounded-2xl text-center md:text-left">
-                        <h5 class="text-white font-bold mb-1 md:mb-2 text-sm md:text-base">Insurance</h5>
+                    <div class="glass p-4 md:p-6 rounded-2xl text-center md:text-left" data-tilt>
+                        <h5 class="text-white font-bold mb-1 text-sm md:text-base">Insurance</h5>
                         <p class="text-slate-500 text-[10px] md:text-xs">FSC Modernization</p>
                     </div>
-                    <div class="glass p-4 md:p-6 rounded-2xl text-center md:text-left">
-                        <h5 class="text-white font-bold mb-1 md:mb-2 text-sm md:text-base">8.29 CGPA</h5>
+                    <div class="glass p-4 md:p-6 rounded-2xl text-center md:text-left" data-tilt>
+                        <h5 class="text-white font-bold mb-1 text-sm md:text-base">8.29 CGPA</h5>
                         <p class="text-slate-500 text-[10px] md:text-xs">Mahendra Eng. College</p>
                     </div>
                 </div>
@@ -245,34 +233,34 @@
     </section>
 
     <section id="skills" class="py-16 md:py-24 px-6 max-w-6xl mx-auto">
-        <h3 class="text-2xl md:text-3xl font-bold text-white mb-12 border-l-4 border-blue-600 pl-6" data-aos="fade-right">Technical Expertise</h3>
+        <h3 class="text-2xl md:text-3xl font-bold text-white mb-12 border-l-4 border-blue-600 pl-6" data-aos="none">Technical Expertise</h3>
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 text-center">
-            <div class="glass p-6 rounded-3xl group hover:border-blue-500/50" data-aos="zoom-in">
-                <i class="fas fa-cloud text-blue-500 text-3xl mb-4 group-hover:scale-110 transition-transform"></i>
+            <div class="glass p-6 rounded-xl group" data-aos="none" data-tilt>
+                <i class="fas fa-cloud text-blue-500 text-3xl mb-4"></i>
                 <h4 class="text-xs font-bold text-white uppercase tracking-tighter">Apex</h4>
             </div>
-            <div class="glass p-6 rounded-3xl group hover:border-blue-400/50" data-aos="zoom-in" data-aos-delay="100">
-                <i class="fas fa-bolt text-yellow-500 text-3xl mb-4 group-hover:scale-110 transition-transform"></i>
+            <div class="glass p-6 rounded-xl group" data-aos="none" data-aos-delay="0" data-tilt>
+                <i class="fas fa-bolt text-yellow-500 text-3xl mb-4"></i>
                 <h4 class="text-xs font-bold text-white uppercase tracking-tighter">LWC</h4>
             </div>
-            <div class="glass p-6 rounded-3xl group hover:border-blue-300/50" data-aos="zoom-in" data-aos-delay="200">
-                <i class="fas fa-layer-group text-blue-300 text-3xl mb-4 group-hover:scale-110 transition-transform"></i>
+            <div class="glass p-6 rounded-xl group" data-aos="none" data-aos-delay="0" data-tilt>
+                <i class="fas fa-layer-group text-blue-300 text-3xl mb-4"></i>
                 <h4 class="text-xs font-bold text-white uppercase tracking-tighter">OmniStudio</h4>
             </div>
-            <div class="glass p-6 rounded-3xl group hover:border-purple-500/50" data-aos="zoom-in" data-aos-delay="300">
-                <i class="fas fa-robot text-purple-500 text-3xl mb-4 group-hover:scale-110 transition-transform"></i>
+            <div class="glass p-6 rounded-xl group" data-aos="none" data-aos-delay="0" data-tilt>
+                <i class="fas fa-robot text-purple-500 text-3xl mb-4"></i>
                 <h4 class="text-xs font-bold text-white uppercase tracking-tighter">Agentforce</h4>
             </div>
-            <div class="glass p-6 rounded-3xl group hover:border-green-500/50" data-aos="zoom-in" data-aos-delay="400">
-                <i class="fas fa-shield-alt text-green-500 text-3xl mb-4 group-hover:scale-110 transition-transform"></i>
+            <div class="glass p-6 rounded-xl group" data-aos="none" data-aos-delay="0" data-tilt>
+                <i class="fas fa-shield-alt text-green-500 text-3xl mb-4"></i>
                 <h4 class="text-xs font-bold text-white uppercase tracking-tighter">FSC</h4>
             </div>
-            <div class="glass p-6 rounded-3xl group hover:border-orange-500/50" data-aos="zoom-in" data-aos-delay="500">
-                <i class="fab fa-js text-orange-500 text-3xl mb-4 group-hover:scale-110 transition-transform"></i>
+            <div class="glass p-6 rounded-xl group" data-aos="none" data-aos-delay="0" data-tilt>
+                <i class="fab fa-js text-orange-500 text-3xl mb-4"></i>
                 <h4 class="text-xs font-bold text-white uppercase tracking-tighter">JavaScript</h4>
             </div>
         </div>
-        <div class="mt-12 flex flex-wrap justify-center gap-3 md:gap-4" data-aos="fade-up">
+        <div class="mt-12 flex flex-wrap justify-center gap-3 md:gap-4" data-aos="none">
             <span class="px-5 py-2 bg-blue-500/5 border border-blue-500/20 rounded-full text-[10px] md:text-[11px] font-mono uppercase text-blue-400">OmniScripts</span>
             <span class="px-5 py-2 bg-blue-500/5 border border-blue-500/20 rounded-full text-[10px] md:text-[11px] font-mono uppercase text-blue-400">FlexCards</span>
             <span class="px-5 py-2 bg-blue-500/5 border border-blue-500/20 rounded-full text-[10px] md:text-[11px] font-mono uppercase text-blue-400">DataRaptors</span>
@@ -281,12 +269,12 @@
     </section>
 
     <section id="projects" class="py-16 md:py-24 px-6 max-w-4xl mx-auto">
-        <h3 class="text-2xl md:text-3xl font-bold text-white mb-12 border-l-4 border-blue-600 pl-6" data-aos="fade-right">Key Projects</h3>
+        <h3 class="text-2xl md:text-3xl font-bold text-white mb-12 border-l-4 border-blue-600 pl-6" data-aos="none">Key Projects</h3>
         <div class="space-y-8 md:space-y-12">
-            <div class="glass p-8 rounded-3xl border border-blue-500/20 group" data-aos="fade-up">
+            <div class="glass p-8 rounded-3xl border border-blue-500/20 group" data-aos="none" data-tilt>
                 <div class="flex flex-col md:flex-row justify-between items-start mb-6">
-                    <h4 class="text-xl md:text-2xl font-bold text-white group-hover:text-blue-400 transition-colors">Liberty Mutual Modernization</h4>
-                    <span class="mt-3 md:mt-0 text-[10px] font-mono px-3 py-1 bg-blue-500/10 text-blue-500 rounded-full border border-blue-500/20 uppercase tracking-widest">OmniStudio</span>
+                    <h4 class="text-xl md:text-2xl font-bold text-white">Liberty Mutual Modernization</h4>
+                    <span class="mt-3 md:mt-0 text-[10px] font-mono px-3 py-1 bg-blue-500/10 text-blue-500 rounded-full border border-blue-500/20 uppercase">OmniStudio</span>
                 </div>
                 <p class="text-slate-400 text-sm md:text-base leading-relaxed mb-8">
                     Transitioned from legacy Sales Cloud to Financial Services Cloud. Built guided processes using OmniScripts and FlexCards to modernize policy tracking and preference management.
@@ -298,10 +286,10 @@
                 </div>
             </div>
 
-            <div class="glass p-8 rounded-3xl border border-white/5 group" data-aos="fade-up" data-aos-delay="200">
+            <div class="glass p-8 rounded-3xl border border-white/5 group" data-aos="none" data-aos-delay="0" data-tilt>
                 <div class="flex flex-col md:flex-row justify-between items-start mb-6">
-                    <h4 class="text-xl md:text-2xl font-bold text-white group-hover:text-blue-400 transition-colors">Cube-Sat Weather Forecasting</h4>
-                    <span class="mt-3 md:mt-0 text-[10px] font-mono px-3 py-1 bg-slate-800 text-slate-400 rounded-full border border-white/10 uppercase tracking-widest">IoT & Data</span>
+                    <h4 class="text-xl md:text-2xl font-bold text-white">Cube-Sat Weather Forecasting</h4>
+                    <span class="mt-3 md:mt-0 text-[10px] font-mono px-3 py-1 bg-slate-800 text-slate-400 rounded-full border border-white/10 uppercase">IoT & Data</span>
                 </div>
                 <p class="text-slate-400 text-sm md:text-base leading-relaxed mb-8">
                     Designed and built a system for real-time monitoring of atmospheric parameters like temperature and solar radiation using CubeSat technology.
@@ -311,12 +299,12 @@
     </section>
 
     <section id="experience" class="py-16 md:py-24 px-6 max-w-4xl mx-auto">
-        <h3 class="text-2xl md:text-3xl font-bold text-white mb-12 border-l-4 border-blue-600 pl-6" data-aos="fade-right">Professional Experience</h3>
+        <h3 class="text-2xl md:text-3xl font-bold text-white mb-12 border-l-4 border-blue-600 pl-6" data-aos="none">Experience</h3>
         <div class="space-y-8 md:space-y-12">
-            <div class="glass p-8 rounded-3xl border border-blue-500/20 group" data-aos="fade-up">
+            <div class="glass p-8 rounded-3xl border border-blue-500/20 group" data-aos="none" data-tilt>
                 <div class="flex flex-col md:flex-row justify-between items-start mb-4">
                     <div class="mb-2 md:mb-0">
-                        <h4 class="text-xl md:text-2xl font-bold text-white group-hover:text-blue-400 transition-colors">Programmer Analyst Trainee</h4>
+                        <h4 class="text-xl md:text-2xl font-bold text-white">Programmer Analyst Trainee</h4>
                         <p class="text-blue-500 font-medium">Cognizant</p>
                     </div>
                     <span class="text-[10px] md:text-xs font-mono px-3 py-1 bg-blue-500/10 text-blue-500 rounded-full border border-blue-500/20 uppercase">2025 - Present</span>
@@ -326,10 +314,10 @@
                 </p>
             </div>
 
-            <div class="glass p-8 rounded-3xl border border-white/5 group" data-aos="fade-up" data-aos-delay="200">
+            <div class="glass p-8 rounded-3xl border border-white/5 group" data-aos="none" data-aos-delay="0" data-tilt>
                 <div class="flex flex-col md:flex-row justify-between items-start mb-4">
                     <div class="mb-2 md:mb-0">
-                        <h4 class="text-xl md:text-2xl font-bold text-white group-hover:text-blue-400 transition-colors">Embedded System Intern</h4>
+                        <h4 class="text-xl md:text-2xl font-bold text-white">Embedded System Intern</h4>
                         <p class="text-slate-400 font-medium">KaaShiv Info Tech</p>
                     </div>
                     <span class="text-[10px] md:text-xs font-mono px-3 py-1 bg-slate-800 text-slate-400 rounded-full border border-white/10 uppercase">2023</span>
@@ -342,12 +330,12 @@
     </section>
 
     <section id="certifications" class="py-16 md:py-24 px-6 max-w-6xl mx-auto">
-        <h3 class="text-2xl md:text-3xl font-bold text-white mb-12 border-l-4 border-blue-600 pl-6" data-aos="fade-right">Credentials & Certifications</h3>
+        <h3 class="text-2xl md:text-3xl font-bold text-white mb-12 border-l-4 border-blue-600 pl-6" data-aos="none">Certifications</h3>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div class="glass p-8 rounded-3xl border border-yellow-500/20 text-center flex flex-col items-center" data-aos="zoom-in">
+            <div class="glass p-8 rounded-3xl border border-yellow-500/20 text-center flex flex-col items-center" data-aos="none" data-tilt>
                 <a href="Agentforce_360_Certificate_Ravivarma_P.pdf" target="_blank" class="block group">
                     <div class="w-full h-32 flex items-center justify-center mb-6">
-                        <img src="Agentforce Rank.png" alt="Agentforce Rank" class="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform">
+                        <img src="Agentforce Rank.png" alt="Agentforce Rank" class="max-h-full max-w-full object-contain">
                     </div>
                     <h4 class="text-lg font-bold text-white mb-2">Agentforce 360</h4>
                     <p class="text-slate-400 text-xs mb-4">Rank #203 | Team Astro</p>
@@ -355,7 +343,7 @@
                 </a>
             </div>
 
-            <div class="glass p-8 rounded-3xl border border-blue-500/20 text-center flex flex-col items-center" data-aos="zoom-in" data-aos-delay="100">
+            <div class="glass p-8 rounded-3xl border border-blue-500/20 text-center flex flex-col items-center" data-aos="none" data-aos-delay="0" data-tilt>
                 <a href="Ravivarma P OmnistudioDeveloper Salesforce Certificate.pdf" target="_blank" class="block w-full">
                     <div class="text-blue-500 text-5xl mb-6 h-32 flex items-center justify-center"><i class="fas fa-certificate"></i></div>
                     <h4 class="text-lg font-bold text-white mb-2">OmniStudio Developer</h4>
@@ -364,7 +352,7 @@
                 </a>
             </div>
 
-            <div class="glass p-8 rounded-3xl border border-blue-500/20 text-center flex flex-col items-center" data-aos="zoom-in" data-aos-delay="200">
+            <div class="glass p-8 rounded-3xl border border-blue-500/20 text-center flex flex-col items-center" data-aos="none" data-aos-delay="0" data-tilt>
                 <a href="Ravivarma P PlatformAdministrator Salesforce Certificate.pdf" target="_blank" class="block w-full">
                     <div class="text-blue-500 text-5xl mb-6 h-32 flex items-center justify-center"><i class="fas fa-user-shield"></i></div>
                     <h4 class="text-lg font-bold text-white mb-2">Platform Admin</h4>
@@ -373,7 +361,7 @@
                 </a>
             </div>
 
-            <div class="glass p-8 rounded-3xl border border-purple-500/20 text-center flex flex-col items-center" data-aos="zoom-in" data-aos-delay="300">
+            <div class="glass p-8 rounded-3xl border border-purple-500/20 text-center flex flex-col items-center" data-aos="none" data-aos-delay="0" data-tilt>
                 <a href="Ravivarma P AgentforceSpecialist Salesforce Certificate.pdf" target="_blank" class="block w-full">
                     <div class="text-purple-500 text-5xl mb-6 h-32 flex items-center justify-center"><i class="fas fa-robot"></i></div>
                     <h4 class="text-lg font-bold text-white mb-2">Agentforce Spec</h4>
@@ -384,12 +372,12 @@
         </div>
     </section>
 
-    <footer id="contact" class="py-16 glass border-t border-white/5 mt-24 text-center">
+    <footer id="contact" class="py-16 border-t border-white/5 mt-24 text-center">
         <div class="max-w-4xl mx-auto px-6">
             <div class="flex justify-center gap-10 mb-12">
-                <a href="https://www.linkedin.com/in/ravivarma-p-6b18642b6" target="_blank" class="text-3xl hover:text-blue-500 transition-all hover:scale-125"><i class="fab fa-linkedin"></i></a>
-                <a href="mailto:ravivarma6110@gmail.com" class="text-3xl hover:text-blue-500 transition-all hover:scale-125"><i class="fas fa-envelope"></i></a>
-                <a href="https://github.com/Ravivarma1Ravi" target="_blank" class="text-3xl hover:text-blue-500 transition-all hover:scale-125"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/ravivarma-p-6b18642b6" target="_blank" class="text-3xl hover:text-blue-500"><i class="fab fa-linkedin"></i></a>
+                <a href="mailto:ravivarma6110@gmail.com" class="text-3xl hover:text-blue-500"><i class="fas fa-envelope"></i></a>
+                <a href="https://github.com/Ravivarma1Ravi" target="_blank" class="text-3xl hover:text-blue-500"><i class="fab fa-github"></i></a>
             </div>
             <p class="text-slate-600 text-[10px] md:text-[11px] tracking-[0.2em] uppercase">RAVIVARMA P &copy; 2026. Salem, India</p>
         </div>
@@ -397,7 +385,8 @@
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 1000, once: true, mirror: false });
+        // AOS Bypass
+        AOS.init({ disable: true });
         
         function toggleMenu() {
             const menu = document.getElementById('mobile-menu');
@@ -405,37 +394,18 @@
             menu.classList.toggle('active');
         }
 
+        // THREE.js rendered static
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('three-canvas'), alpha: true, antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
-
-        const starsGeometry = new THREE.BufferGeometry();
-        const starsCount = 3000;
-        const posArray = new Float32Array(starsCount * 3);
-
-        for(let i=0; i < starsCount * 3; i++) {
-            posArray[i] = (Math.random() - 0.5) * 2000;
-        }
-        starsGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-        const starsMaterial = new THREE.PointsMaterial({ size: 2, color: 0x3b82f6, transparent: true });
-        const starsMesh = new THREE.Points(starsGeometry, starsMaterial);
-        scene.add(starsMesh);
-
-        camera.position.z = 1;
-
-        function animateStars() {
-            requestAnimationFrame(animateStars);
-            starsMesh.rotation.y += 0.0006;
-            starsMesh.rotation.x += 0.0003;
-            renderer.render(scene, camera);
-        }
-        animateStars();
+        renderer.render(scene, camera);
 
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.render(scene, camera);
         });
 
         /* VanillaTilt removed for clean look */
