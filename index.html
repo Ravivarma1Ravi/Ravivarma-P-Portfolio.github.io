@@ -107,15 +107,24 @@
             text-shadow: none !important;
         }
 
-        /* Essential Mobile Fixes */
+        /* Essential Mobile Fixes and laptop-style alignment */
         @media (max-width: 768px) {
-            h1 { font-size: 3.2rem !important; line-height: 1.1 !important; margin-bottom: 1.5rem !important; }
-            h2 { font-size: 0.75rem !important; letter-spacing: 0.1em !important; }
-            h3 { font-size: 1.75rem !important; }
-            section { padding-left: 1rem !important; padding-right: 1rem !important; padding-top: 4rem !important; padding-bottom: 4rem !important; }
+            h1 { font-size: 3.4rem !important; line-height: 1.1 !important; text-align: center !important; }
+            h2 { text-align: center !important; font-size: 0.7rem !important; }
+            #home p { text-align: center !important; padding: 0 10px; }
+            .hero-btns { flex-direction: column !important; align-items: center !important; }
+            .hero-btns a { width: 85% !important; text-align: center !important; }
+            .hero-socials { justify-content: center !important; width: 100% !important; margin-top: 1rem !important; }
+            
+            /* Laptop style 2-column grid for cards on mobile */
+            .mobile-grid-2 { 
+                display: grid !important; 
+                grid-template-columns: repeat(2, 1fr) !important; 
+                gap: 12px !important; 
+            }
             .glass { padding: 1.25rem !important; }
-            #home { padding-top: 0 !important; }
-            .profile-frame { margin-bottom: 2rem; }
+            section { padding-left: 1.25rem !important; padding-right: 1.25rem !important; }
+            .about-container { text-align: center !important; }
         }
     </style>
 </head>
@@ -158,16 +167,16 @@
             <p id="summary" class="text-base md:text-xl text-slate-400 leading-relaxed max-w-2xl mx-auto mb-10 px-2" data-aos="none" data-aos-delay="0">
                 Certified Salesforce Developer specializing in <span class="text-white font-semibold">Vlocity (OmniStudio)</span> and <span class="text-white font-semibold">Agentforce</span>. 
             </p>
-            <div class="flex flex-wrap justify-center gap-4" data-aos="none" data-aos-delay="0">
-                <a href="mailto:ravivarma6110@gmail.com" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-bold transition-colors shadow-lg shadow-blue-500/20 text-sm md:text-base">Let's Talk</a>
+            <div class="flex flex-wrap justify-center gap-4 hero-btns" data-aos="none" data-aos-delay="0">
+                <a href="mailto:ravivarma6110@gmail.com" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-bold shadow-lg shadow-blue-500/20 text-sm md:text-base">Let's Talk</a>
                 
                 <a href="Ravivarma P CV.pdf" target="_blank" class="glass text-white px-8 py-4 rounded-xl font-bold border border-white/10 text-sm md:text-base" data-tilt>
                     <i class="fas fa-download mr-2 text-blue-400"></i> Resume
                 </a>
 
-                <div class="flex gap-4 w-full justify-center md:w-auto mt-2 md:mt-0">
-                    <a href="https://github.com/Ravivarma1Ravi" target="_blank" class="glass text-white p-4 rounded-xl font-bold border border-white/10" data-tilt> <i class="fab fa-github"></i> &nbsp; GitHub</a>
-                    <a href="https://www.salesforce.com/trailblazer/pzb5ob6cpe3h2nrpa8" target="_blank" class="glass text-white p-4 rounded-xl font-bold border border-white/10" data-tilt> <i class="fas fa-mountain"></i> &nbsp; Trailblazer</a>
+                <div class="flex gap-4 w-full justify-center md:w-auto mt-2 md:mt-0 hero-socials">
+                    <a href="https://github.com/Ravivarma1Ravi" target="_blank" class="glass text-white p-4 rounded-xl font-bold border border-white/10" data-tilt> <i class="fab fa-github"></i></a>
+                    <a href="https://www.salesforce.com/trailblazer/pzb5ob6cpe3h2nrpa8" target="_blank" class="glass text-white p-4 rounded-xl font-bold border border-white/10" data-tilt> <i class="fas fa-mountain"></i></a>
                 </div>
             </div>
         </div>
@@ -175,7 +184,7 @@
 
     <section id="gallery" class="py-16 md:py-24 px-6 max-w-6xl mx-auto">
         <h3 class="text-2xl md:text-3xl font-bold text-white mb-12 border-l-4 border-blue-600 pl-6" data-aos="none">Technical Showcase</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div class="glass p-8 rounded-3xl group" data-aos="none" data-tilt>
                 <div class="overflow-hidden rounded-2xl mb-6 h-40 md:h-48 bg-slate-900 flex items-center justify-center">
                     <i class="fas fa-project-diagram text-blue-500 text-5xl md:text-6xl"></i>
@@ -203,7 +212,7 @@
     </section>
 
     <section id="about" class="py-16 md:py-24 px-6 max-w-6xl mx-auto">
-        <div class="flex flex-col md:flex-row gap-12 md:gap-16 items-center">
+        <div class="flex flex-col md:flex-row gap-12 md:gap-16 items-center about-container">
             <div class="w-full md:w-1/3 flex justify-center profile-frame" data-aos="none">
                 <div class="relative group" data-tilt data-tilt-max="0" data-tilt-speed="0">
                     <img src="Ravi.jpg" alt="Ravivarma P" class="relative rounded-2xl shadow-2xl mx-auto">
@@ -214,7 +223,7 @@
                 <p class="text-slate-400 leading-relaxed mb-6 text-sm md:text-base">
                     As a Bachelor of Engineering graduate, I have always been driven by a solutions-oriented attitude. This foundation allowed me to transition seamlessly into the Salesforce ecosystem, bridging technical backend logic with user-centric design.
                 </p>
-                <div class="grid grid-cols-2 gap-4">
+                <div class="mobile-grid-2">
                     <div class="glass p-4 md:p-6 rounded-2xl text-center md:text-left" data-tilt>
                         <h5 class="text-white font-bold mb-1 text-sm md:text-base">203 Rank</h5>
                         <p class="text-slate-500 text-[10px] md:text-xs uppercase">Agentforce 360 League</p>
@@ -238,7 +247,7 @@
 
     <section id="skills" class="py-16 md:py-24 px-6 max-w-6xl mx-auto">
         <h3 class="text-2xl md:text-3xl font-bold text-white mb-12 border-l-4 border-blue-600 pl-6" data-aos="none">Technical Expertise</h3>
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 text-center">
+        <div class="mobile-grid-2 md:grid md:grid-cols-6 gap-4 md:gap-6 text-center">
             <div class="glass p-6 rounded-xl group" data-aos="none" data-tilt>
                 <i class="fas fa-cloud text-blue-500 text-3xl mb-4"></i>
                 <h4 class="text-xs font-bold text-white uppercase tracking-tighter">Apex</h4>
@@ -261,14 +270,14 @@
             </div>
             <div class="glass p-6 rounded-xl group" data-aos="none" data-aos-delay="0" data-tilt>
                 <i class="fab fa-js text-orange-500 text-3xl mb-4"></i>
-                <h4 class="text-xs font-bold text-white uppercase tracking-tighter">JavaScript</h4>
+                <h4 class="text-xs font-bold text-white uppercase tracking-tighter">JS</h4>
             </div>
         </div>
         <div class="mt-12 flex flex-wrap justify-center gap-3 md:gap-4" data-aos="none">
             <span class="px-5 py-2 bg-blue-500/5 border border-blue-500/20 rounded-full text-[10px] md:text-[11px] font-mono uppercase text-blue-400">OmniScripts</span>
             <span class="px-5 py-2 bg-blue-500/5 border border-blue-500/20 rounded-full text-[10px] md:text-[11px] font-mono uppercase text-blue-400">FlexCards</span>
             <span class="px-5 py-2 bg-blue-500/5 border border-blue-500/20 rounded-full text-[10px] md:text-[11px] font-mono uppercase text-blue-400">DataRaptors</span>
-            <span class="px-5 py-2 bg-blue-500/5 border border-blue-500/20 rounded-full text-[10px] md:text-[11px] font-mono uppercase text-blue-400">Integration Procedures</span>
+            <span class="px-5 py-2 bg-blue-500/5 border border-blue-500/20 rounded-full text-[10px] md:text-[11px] font-mono uppercase text-blue-400">Integration</span>
         </div>
     </section>
 
@@ -281,11 +290,11 @@
                     <span class="mt-3 md:mt-0 text-[10px] font-mono px-3 py-1 bg-blue-500/10 text-blue-500 rounded-full border border-blue-500/20 uppercase">OmniStudio</span>
                 </div>
                 <p class="text-slate-400 text-sm md:text-base leading-relaxed mb-8">
-                    Transitioned from legacy Sales Cloud to Financial Services Cloud. Built guided processes using OmniScripts and FlexCards to modernize policy tracking and preference management.
+                    Transitioned legacy Sales Cloud to Financial Services Cloud using OmniScripts and FlexCards.
                 </p>
                 <div class="flex flex-wrap gap-3">
                     <span class="px-3 py-1 bg-white/5 rounded text-[11px] border border-white/5">DataRaptor</span>
-                    <span class="px-3 py-1 bg-white/5 rounded text-[11px] border border-white/5">Integration Procedures</span>
+                    <span class="px-3 py-1 bg-white/5 rounded text-[11px] border border-white/5">Integration</span>
                     <span class="px-3 py-1 bg-white/5 rounded text-[11px] border border-white/5">LWC</span>
                 </div>
             </div>
@@ -293,10 +302,10 @@
             <div class="glass p-8 rounded-3xl border border-white/5 group" data-aos="none" data-aos-delay="0" data-tilt>
                 <div class="flex flex-col md:flex-row justify-between items-start mb-6">
                     <h4 class="text-xl md:text-2xl font-bold text-white">Cube-Sat Weather Forecasting</h4>
-                    <span class="mt-3 md:mt-0 text-[10px] font-mono px-3 py-1 bg-slate-800 text-slate-400 rounded-full border border-white/10 uppercase tracking-widest">IoT & Data</span>
+                    <span class="mt-3 md:mt-0 text-[10px] font-mono px-3 py-1 bg-slate-800 text-slate-400 rounded-full border border-white/10 uppercase">IoT & Data</span>
                 </div>
                 <p class="text-slate-400 text-sm md:text-base leading-relaxed mb-8">
-                    Designed and built a system for real-time monitoring of atmospheric parameters like temperature and solar radiation using CubeSat technology.
+                    Real-time atmospheric monitoring system using CubeSat technology and sensors.
                 </p>
             </div>
         </div>
@@ -314,20 +323,7 @@
                     <span class="text-[10px] md:text-xs font-mono px-3 py-1 bg-blue-500/10 text-blue-500 rounded-full border border-blue-500/20 uppercase">2025 - Present</span>
                 </div>
                 <p class="text-slate-400 text-sm md:text-base leading-relaxed">
-                    Developing dynamic interfaces with LWC and OmniScripts. Actively managing workflows in Agentforce for onboarding and marketing campaigns.
-                </p>
-            </div>
-
-            <div class="glass p-8 rounded-3xl border border-white/5 group" data-aos="none" data-aos-delay="0" data-tilt>
-                <div class="flex flex-col md:flex-row justify-between items-start mb-4">
-                    <div class="mb-2 md:mb-0">
-                        <h4 class="text-xl md:text-2xl font-bold text-white">Embedded System Intern</h4>
-                        <p class="text-slate-400 font-medium">KaaShiv Info Tech</p>
-                    </div>
-                    <span class="text-[10px] md:text-xs font-mono px-3 py-1 bg-slate-800 text-slate-400 rounded-full border border-white/10 uppercase">2023</span>
-                </div>
-                <p class="text-slate-500 text-sm md:text-base leading-relaxed">
-                    Focused on maximizing system performance using microprocessor-based hardware and embedded architecture.
+                    Developing interfaces with LWC and OmniScripts. Managing Agentforce workflows.
                 </p>
             </div>
         </div>
@@ -335,42 +331,35 @@
 
     <section id="certifications" class="py-16 md:py-24 px-6 max-w-6xl mx-auto">
         <h3 class="text-2xl md:text-3xl font-bold text-white mb-12 border-l-4 border-blue-600 pl-6" data-aos="none">Certifications</h3>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="mobile-grid-2 md:grid md:grid-cols-4 gap-6">
             <div class="glass p-8 rounded-3xl border border-yellow-500/20 text-center flex flex-col items-center" data-aos="none" data-tilt>
                 <a href="Agentforce_360_Certificate_Ravivarma_P.pdf" target="_blank" class="block group">
-                    <div class="w-full h-32 flex items-center justify-center mb-6">
+                    <div class="w-full h-24 flex items-center justify-center mb-6">
                         <img src="Agentforce Rank.png" alt="Agentforce Rank" class="max-h-full max-w-full object-contain">
                     </div>
-                    <h4 class="text-lg font-bold text-white mb-2">Agentforce 360</h4>
-                    <p class="text-slate-400 text-xs mb-4">Rank #203 | Team Astro</p>
-                    <span class="text-[10px] font-mono px-4 py-1.5 bg-yellow-500/10 text-yellow-500 rounded-full uppercase">Jan 2026</span>
+                    <h4 class="text-sm font-bold text-white mb-2">Agentforce 360</h4>
+                    <p class="text-slate-500 text-[10px]">Rank #203</p>
                 </a>
             </div>
 
             <div class="glass p-8 rounded-3xl border border-blue-500/20 text-center flex flex-col items-center" data-aos="none" data-aos-delay="0" data-tilt>
                 <a href="Ravivarma P OmnistudioDeveloper Salesforce Certificate.pdf" target="_blank" class="block w-full">
-                    <div class="text-blue-500 text-5xl mb-6 h-32 flex items-center justify-center"><i class="fas fa-certificate"></i></div>
-                    <h4 class="text-lg font-bold text-white mb-2">OmniStudio Developer</h4>
-                    <p class="text-slate-400 text-xs mb-4">Salesforce Certified</p>
-                    <span class="text-[10px] font-mono px-4 py-1.5 bg-blue-500/10 text-blue-500 rounded-full uppercase">Nov 2025</span>
+                    <div class="text-blue-500 text-3xl mb-6 h-24 flex items-center justify-center"><i class="fas fa-certificate"></i></div>
+                    <h4 class="text-sm font-bold text-white mb-2">OmniStudio Dev</h4>
                 </a>
             </div>
 
             <div class="glass p-8 rounded-3xl border border-blue-500/20 text-center flex flex-col items-center" data-aos="none" data-aos-delay="0" data-tilt>
                 <a href="Ravivarma P PlatformAdministrator Salesforce Certificate.pdf" target="_blank" class="block w-full">
-                    <div class="text-blue-500 text-5xl mb-6 h-32 flex items-center justify-center"><i class="fas fa-user-shield"></i></div>
-                    <h4 class="text-lg font-bold text-white mb-2">Platform Admin</h4>
-                    <p class="text-slate-400 text-xs mb-4">Salesforce Certified</p>
-                    <span class="text-[10px] font-mono px-4 py-1.5 bg-blue-500/10 text-blue-500 rounded-full uppercase">Jan 2026</span>
+                    <div class="text-blue-500 text-3xl mb-6 h-24 flex items-center justify-center"><i class="fas fa-user-shield"></i></div>
+                    <h4 class="text-sm font-bold text-white mb-2">Platform Admin</h4>
                 </a>
             </div>
 
             <div class="glass p-8 rounded-3xl border border-purple-500/20 text-center flex flex-col items-center" data-aos="none" data-aos-delay="0" data-tilt>
                 <a href="Ravivarma P AgentforceSpecialist Salesforce Certificate.pdf" target="_blank" class="block w-full">
-                    <div class="text-purple-500 text-5xl mb-6 h-32 flex items-center justify-center"><i class="fas fa-robot"></i></div>
-                    <h4 class="text-lg font-bold text-white mb-2">Agentforce Spec</h4>
-                    <p class="text-slate-400 text-xs mb-4">Specialist Badge</p>
-                    <span class="text-[10px] font-mono px-4 py-1.5 bg-purple-500/10 text-purple-500 rounded-full uppercase">Nov 2025</span>
+                    <div class="text-purple-500 text-3xl mb-6 h-24 flex items-center justify-center"><i class="fas fa-robot"></i></div>
+                    <h4 class="text-sm font-bold text-white mb-2">Agentforce Spec</h4>
                 </a>
             </div>
         </div>
@@ -379,9 +368,9 @@
     <footer id="contact" class="py-16 glass border-t border-white/5 mt-24 text-center">
         <div class="max-w-4xl mx-auto px-6">
             <div class="flex justify-center gap-10 mb-12">
-                <a href="https://www.linkedin.com/in/ravivarma-p-6b18642b6" target="_blank" class="text-3xl hover:text-blue-500"><i class="fab fa-linkedin"></i></a>
-                <a href="mailto:ravivarma6110@gmail.com" class="text-3xl hover:text-blue-500"><i class="fas fa-envelope"></i></a>
-                <a href="https://github.com/Ravivarma1Ravi" target="_blank" class="text-3xl hover:text-blue-500"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/ravivarma-p-6b18642b6" target="_blank" class="text-3xl hover:text-blue-500 transition-all hover:scale-125"><i class="fab fa-linkedin"></i></a>
+                <a href="mailto:ravivarma6110@gmail.com" class="text-3xl hover:text-blue-500 transition-all hover:scale-125"><i class="fas fa-envelope"></i></a>
+                <a href="https://github.com/Ravivarma1Ravi" target="_blank" class="text-3xl hover:text-blue-500 transition-all hover:scale-125"><i class="fab fa-github"></i></a>
             </div>
             <p class="text-slate-600 text-[10px] md:text-[11px] tracking-[0.2em] uppercase">RAVIVARMA P &copy; 2026. Salem, India</p>
         </div>
