@@ -7,6 +7,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
         
@@ -14,6 +16,25 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: #05070a;
             overflow-x: hidden;
+            /* Fixed: Perspective moved to wrapper to keep nav stable */
+        }
+
+        /* NEW: 3D Content Wrapper */
+        .three-d-wrapper {
+            perspective: 1000px;
+            width: 100%;
+        }
+
+        /* NEW: Scroll Progress Bar */
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+            z-index: 200;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
         }
 
         .glass {
@@ -21,13 +42,20 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.05);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            /* Enable 3D rotation */
+            transform-style: preserve-3d;
         }
 
         .glass:hover {
             background: rgba(255, 255, 255, 0.07);
             border: 1px solid rgba(59, 130, 246, 0.3);
-            transform: translateY(-5px);
+            transform: translateY(-5px) translateZ(20px);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Float inner elements inside the 3D cards */
+        .glass > * {
+            transform: translateZ(30px);
         }
 
         .hero-gradient {
@@ -35,9 +63,9 @@
         }
 
         @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0px); }
+            0% { transform: translateY(0px) rotateX(0deg); }
+            50% { transform: translateY(-20px) rotateX(5deg); }
+            100% { transform: translateY(0px) rotateX(0deg); }
         }
         .animate-float { animation: float 6s ease-in-out infinite; }
         
@@ -50,10 +78,11 @@
             max-width: 320px;
             height: 400px;
             object-fit: cover;
+            transform-style: preserve-3d;
         }
         .profile-frame:hover img {
             filter: grayscale(0%);
-            transform: scale(1.02);
+            transform: scale(1.02) translateZ(50px);
         }
 
         /* Mobile Menu Visibility Fix */
@@ -63,11 +92,31 @@
         #mobile-menu.active {
             display: flex;
         }
+
+        /* 3D Background Canvas Layer */
+        #three-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Extruded text effect for name */
+        .text-3d {
+            text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0,0,0,.1);
+        }
     </style>
 </head>
 <body class="text-slate-300">
 
-    <nav class="fixed w-full z-[100] glass border-b border-white/5 top-0 bg-[#05070a]/80 backdrop-blur-md">
+    <div id="scroll-progress"></div>
+
+    <canvas id="three-canvas"></canvas>
+
+    <nav id="main-nav" class="fixed top-0 left-0 w-full z-[150] glass border-b border-white/5 bg-[#05070a]/80 backdrop-blur-md transition-all duration-300">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <div class="text-xl font-extrabold tracking-tighter text-white">RP<span class="text-blue-500">.</span></div>
             
@@ -95,215 +144,176 @@
         </div>
     </nav>
 
-    <section id="home" class="min-h-screen flex items-center justify-center relative hero-gradient px-6 pt-20">
-        <div class="text-center max-w-4xl animate-float">
-            <h2 class="text-blue-500 font-mono mb-4 text-sm tracking-[0.3em] uppercase" data-aos="fade-down">Salesforce Developer @ Cognizant</h2>
-            <h1 class="text-5xl md:text-8xl font-extrabold text-white mb-6 leading-tight tracking-tighter" data-aos="zoom-in" data-aos-delay="200">
-                RAVIVARMA P
-            </h1>
-            <p id="summary" class="text-lg md:text-xl text-slate-400 leading-relaxed max-w-2xl mx-auto mb-10" data-aos="fade-up" data-aos-delay="400">
-                Certified Salesforce Developer specializing in <span class="text-white font-semibold">Vlocity (OmniStudio)</span> and <span class="text-white font-semibold">Agentforce</span>. 
-            </p>
-            <div class="flex flex-wrap justify-center gap-4" data-aos="fade-up" data-aos-delay="600">
-                <a href="mailto:ravivarma.p@cognizant.com" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-lg shadow-blue-500/20 hover:scale-105">Let's Talk</a>
-                
-                <a href="Ravivarma P CV.pdf" target="_blank" class="glass text-white px-8 py-4 rounded-2xl font-bold border border-white/10 hover:border-blue-500/50 hover:scale-105 transition-all">
-                    <i class="fas fa-download mr-2 text-blue-400"></i> Resume
-                </a>
+    <div class="three-d-wrapper">
+        <section id="home" class="min-h-screen flex items-center justify-center relative hero-gradient px-6 pt-20">
+            <div class="text-center max-w-4xl animate-float">
+                <h2 class="text-blue-500 font-mono mb-4 text-sm tracking-[0.3em] uppercase" data-aos="fade-down">Salesforce Developer @ Cognizant</h2>
+                <h1 class="text-5xl md:text-8xl font-extrabold text-white mb-6 leading-tight tracking-tighter text-3d" data-aos="zoom-in" data-aos-delay="200">
+                    RAVIVARMA P
+                </h1>
+                <p id="summary" class="text-lg md:text-xl text-slate-400 leading-relaxed max-w-2xl mx-auto mb-10" data-aos="fade-up" data-aos-delay="400">
+                    Certified Salesforce Developer specializing in <span class="text-white font-semibold">Vlocity (OmniStudio)</span> and <span class="text-white font-semibold">Agentforce</span>. 
+                </p>
+                <div class="flex flex-wrap justify-center gap-4" data-aos="fade-up" data-aos-delay="600">
+                    <a href="mailto:ravivarma6110@gmail.com" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-lg shadow-blue-500/20 hover:scale-105">Let's Talk</a>
+                    
+                    <a href="Ravivarma P CV.pdf" target="_blank" class="glass text-white px-8 py-4 rounded-2xl font-bold border border-white/10 hover:border-blue-500/50 hover:scale-105 transition-all" data-tilt>
+                        <i class="fas fa-download mr-2 text-blue-400"></i> Resume
+                    </a>
 
-                <a href="https://github.com/Ravivarma1Ravi" target="_blank" class="glass text-white px-8 py-4 rounded-2xl font-bold border border-white/10 hover:scale-105 transition-all"><i class="fab fa-github mr-2"></i> GitHub</a>
-                <a href="https://www.salesforce.com/trailblazer/pzb5ob6cpe3h2nrpa8" target="_blank" class="glass text-white px-8 py-4 rounded-2xl font-bold border border-white/10 hover:scale-105 transition-all"><i class="fas fa-mountain mr-2"></i> Trailblazer</a>
-            </div>
-        </div>
-    </section>
-
-    <section id="about" class="py-24 px-6 max-w-6xl mx-auto">
-        <div class="flex flex-col md:flex-row gap-16 items-center">
-            <div class="w-full md:w-1/3 flex justify-center profile-frame" data-aos="fade-right">
-                <div class="relative group">
-                    <div class="absolute -inset-4 bg-blue-500/10 rounded-3xl blur-xl group-hover:bg-blue-500/20 transition duration-700"></div>
-                    <img src="Ravi.jpg" alt="Ravivarma P" class="relative rounded-3xl border border-white/10 shadow-2xl grayscale-0 md:grayscale hover:grayscale-0 transition-all duration-500 mx-auto">
+                    <a href="https://github.com/Ravivarma1Ravi" target="_blank" class="glass text-white px-8 py-4 rounded-2xl font-bold border border-white/10 hover:scale-105 transition-all" data-tilt><i class="fab fa-github mr-2"></i> GitHub</a>
+                    <a href="https://www.salesforce.com/trailblazer/pzb5ob6cpe3h2nrpa8" target="_blank" class="glass text-white px-8 py-4 rounded-2xl font-bold border border-white/10 hover:scale-105 transition-all" data-tilt><i class="fas fa-mountain mr-2"></i> Trailblazer</a>
                 </div>
             </div>
-            <div class="w-full md:w-2/3" data-aos="fade-left">
-                <h3 class="text-4xl font-bold text-white mb-6">From Engineering Logic to <br><span class="text-blue-500">Salesforce Innovation</span></h3>
-                <p class="text-slate-400 leading-relaxed mb-6">
-                    As a Bachelor of Engineering graduate, I have always been driven by a solutions-oriented attitude. This foundation allowed me to transition seamlessly into the Salesforce ecosystem, bridging technical backend logic with user-centric design.
-                </p>
-                <p class="text-slate-400 leading-relaxed mb-8">
-                    My current focus at Cognizant is mastering <strong>Agentforce</strong> and <strong>OmniStudio</strong>. I thrive on replacing standard processes with guided, efficient workflows that drive real business value.
-                </p>
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="glass p-6 rounded-2xl">
-                        <h5 class="text-white font-bold mb-2">203 Rank</h5>
-                        <p class="text-slate-500 text-xs">Agentforce 360 League Achiever</p>
-                    </div>
-                    <div class="glass p-6 rounded-2xl">
-                        <h5 class="text-white font-bold mb-2">3+ Certs</h5>
-                        <p class="text-slate-500 text-xs">Certified Admin & Developer</p>
-                    </div>
-                    <div class="glass p-6 rounded-2xl">
-                        <h5 class="text-white font-bold mb-2">Insurance</h5>
-                        <p class="text-slate-500 text-xs">FSC Modernization Experience</p>
-                    </div>
-                    <div class="glass p-6 rounded-2xl">
-                        <h5 class="text-white font-bold mb-2">8.29 CGPA</h5>
-                        <p class="text-slate-500 text-xs">Mahendra Engineering College</p>
+        </section>
+
+        <section id="about" class="py-24 px-6 max-w-6xl mx-auto">
+            <div class="flex flex-col md:flex-row gap-16 items-center">
+                <div class="w-full md:w-1/3 flex justify-center profile-frame" data-aos="fade-right">
+                    <div class="relative group" data-tilt data-tilt-max="10" data-tilt-speed="400" data-tilt-perspective="1000">
+                        <div class="absolute -inset-4 bg-blue-500/10 rounded-3xl blur-xl group-hover:bg-blue-500/20 transition duration-700"></div>
+                        <img src="Ravi.jpg" alt="Ravivarma P" class="relative rounded-3xl border border-white/10 shadow-2xl grayscale-0 md:grayscale hover:grayscale-0 transition-all duration-500 mx-auto">
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="skills" class="py-24 px-6 max-w-6xl mx-auto">
-        <h3 class="text-3xl font-bold text-white mb-12 border-l-4 border-blue-600 pl-6" data-aos="fade-right">Technical Expertise</h3>
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 text-center">
-            <div class="glass p-6 rounded-3xl group hover:border-blue-500/50" data-aos="zoom-in">
-                <i class="fas fa-cloud text-blue-500 text-3xl mb-3 group-hover:scale-110 transition-transform"></i>
-                <h4 class="text-sm font-bold text-white uppercase tracking-tighter">Apex</h4>
-            </div>
-            <div class="glass p-6 rounded-3xl group hover:border-blue-400/50" data-aos="zoom-in" data-aos-delay="100">
-                <i class="fas fa-bolt text-yellow-500 text-3xl mb-3 group-hover:scale-110 transition-transform"></i>
-                <h4 class="text-sm font-bold text-white uppercase tracking-tighter">LWC</h4>
-            </div>
-            <div class="glass p-6 rounded-3xl group hover:border-blue-300/50" data-aos="zoom-in" data-aos-delay="200">
-                <i class="fas fa-layer-group text-blue-300 text-3xl mb-3 group-hover:scale-110 transition-transform"></i>
-                <h4 class="text-sm font-bold text-white uppercase tracking-tighter">OmniStudio</h4>
-            </div>
-            <div class="glass p-6 rounded-3xl group hover:border-purple-500/50" data-aos="zoom-in" data-aos-delay="300">
-                <i class="fas fa-robot text-purple-500 text-3xl mb-3 group-hover:scale-110 transition-transform"></i>
-                <h4 class="text-sm font-bold text-white uppercase tracking-tighter">Agentforce</h4>
-            </div>
-            <div class="glass p-6 rounded-3xl group hover:border-green-500/50" data-aos="zoom-in" data-aos-delay="400">
-                <i class="fas fa-shield-alt text-green-500 text-3xl mb-3 group-hover:scale-110 transition-transform"></i>
-                <h4 class="text-sm font-bold text-white uppercase tracking-tighter">Financial Cloud</h4>
-            </div>
-            <div class="glass p-6 rounded-3xl group hover:border-orange-500/50" data-aos="zoom-in" data-aos-delay="500">
-                <i class="fab fa-js text-orange-500 text-3xl mb-3 group-hover:scale-110 transition-transform"></i>
-                <h4 class="text-sm font-bold text-white uppercase tracking-tighter">JavaScript</h4>
-            </div>
-        </div>
-        <div class="mt-10 flex flex-wrap justify-center gap-3" data-aos="fade-up">
-            <span class="px-4 py-1.5 bg-blue-500/5 border border-blue-500/20 rounded-full text-[10px] font-mono uppercase text-blue-400">OmniScripts</span>
-            <span class="px-4 py-1.5 bg-blue-500/5 border border-blue-500/20 rounded-full text-[10px] font-mono uppercase text-blue-400">FlexCards</span>
-            <span class="px-4 py-1.5 bg-blue-500/5 border border-blue-500/20 rounded-full text-[10px] font-mono uppercase text-blue-400">DataRaptors</span>
-            <span class="px-4 py-1.5 bg-blue-500/5 border border-blue-500/20 rounded-full text-[10px] font-mono uppercase text-blue-400">Integration Procedures</span>
-            <span class="px-4 py-1.5 bg-blue-500/5 border border-blue-500/20 rounded-full text-[10px] font-mono uppercase text-blue-400">Salesforce Flow</span>
-        </div>
-    </section>
-
-    <section id="projects" class="py-24 px-6 max-w-4xl mx-auto">
-        <h3 class="text-3xl font-bold text-white mb-12 border-l-4 border-blue-600 pl-6" data-aos="fade-right">Key Projects</h3>
-        <div class="space-y-12">
-            <div class="glass p-8 rounded-3xl border border-blue-500/20 group" data-aos="fade-up">
-                <div class="flex flex-col md:flex-row justify-between items-start mb-4">
-                    <h4 class="text-2xl font-bold text-white group-hover:text-blue-400 transition-colors">Liberty Mutual Modernization</h4>
-                    <span class="mt-2 md:mt-0 text-[10px] font-mono px-3 py-1 bg-blue-500/10 text-blue-500 rounded-full border border-blue-500/20 uppercase">OmniStudio</span>
-                </div>
-                <p class="text-slate-400 text-sm leading-relaxed mb-6">
-                    Transitioned from legacy Sales Cloud to Financial Services Cloud. Built guided processes using OmniScripts and FlexCards to modernize policy tracking and preference management.
-                </p>
-                <div class="flex flex-wrap gap-2">
-                    <span class="px-2 py-1 bg-white/5 rounded text-[10px]">DataRaptor</span>
-                    <span class="px-2 py-1 bg-white/5 rounded text-[10px]">Integration Procedures</span>
-                    <span class="px-2 py-1 bg-white/5 rounded text-[10px]">LWC</span>
-                </div>
-            </div>
-
-            <div class="glass p-8 rounded-3xl border border-white/5 group" data-aos="fade-up" data-aos-delay="200">
-                <div class="flex flex-col md:flex-row justify-between items-start mb-4">
-                    <h4 class="text-2xl font-bold text-white group-hover:text-blue-400 transition-colors">Cube-Sat Weather Forecasting</h4>
-                    <span class="mt-2 md:mt-0 text-[10px] font-mono px-3 py-1 bg-slate-800 text-slate-400 rounded-full border border-white/10 uppercase">IoT & Data</span>
-                </div>
-                <p class="text-slate-400 text-sm leading-relaxed mb-6">
-                    Designed and built a system for real-time monitoring of atmospheric parameters like temperature and solar radiation using CubeSat technology.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <section id="experience" class="py-24 px-6 max-w-4xl mx-auto">
-        <h3 class="text-3xl font-bold text-white mb-12 border-l-4 border-blue-600 pl-6" data-aos="fade-right">Professional Experience</h3>
-        <div class="space-y-12">
-            <div class="glass p-8 rounded-3xl border border-blue-500/20 group" data-aos="fade-up">
-                <div class="flex flex-col md:flex-row justify-between items-start mb-4">
-                    <div>
-                        <h4 class="text-2xl font-bold text-white group-hover:text-blue-400 transition-colors">Programmer Analyst Trainee</h4>
-                        <p class="text-blue-500 font-medium">Cognizant</p>
+                <div class="w-full md:w-2/3" data-aos="fade-left">
+                    <h3 class="text-4xl font-bold text-white mb-6">From Engineering Logic to <br><span class="text-blue-500">Salesforce Innovation</span></h3>
+                    <p class="text-slate-400 leading-relaxed mb-6">
+                        As a Bachelor of Engineering graduate, I have always been driven by a solutions-oriented attitude. This foundation allowed me to transition seamlessly into the Salesforce ecosystem, bridging technical backend logic with user-centric design.
+                    </p>
+                    <p class="text-slate-400 leading-relaxed mb-8">
+                        My current focus at Cognizant is mastering <strong>Agentforce</strong> and <strong>OmniStudio</strong>. I thrive on replacing standard processes with guided, efficient workflows that drive real business value.
+                    </p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="glass p-6 rounded-2xl" data-tilt>
+                            <h5 class="text-white font-bold mb-2">203 Rank</h5>
+                            <p class="text-slate-500 text-xs">Agentforce 360 League Achiever</p>
+                        </div>
+                        <div class="glass p-6 rounded-2xl" data-tilt>
+                            <h5 class="text-white font-bold mb-2">3+ Certs</h5>
+                            <p class="text-slate-500 text-xs">Certified Admin & Developer</p>
+                        </div>
+                        <div class="glass p-6 rounded-2xl" data-tilt>
+                            <h5 class="text-white font-bold mb-2">Insurance</h5>
+                            <p class="text-slate-500 text-xs">FSC Modernization Experience</p>
+                        </div>
+                        <div class="glass p-6 rounded-2xl" data-tilt>
+                            <h5 class="text-white font-bold mb-2">8.29 CGPA</h5>
+                            <p class="text-slate-500 text-xs">Mahendra Engineering College</p>
+                        </div>
                     </div>
-                    <span class="mt-2 md:mt-0 text-xs font-mono px-3 py-1 bg-blue-500/10 text-blue-500 rounded-full border border-blue-500/20 uppercase">2025 - Present</span>
                 </div>
-                <p class="text-slate-400 leading-relaxed">
-                    Developing dynamic interfaces with LWC and OmniScripts. Actively managing workflows in Agentforce for onboarding and marketing campaigns.
-                </p>
             </div>
+        </section>
 
-            <div class="glass p-8 rounded-3xl border border-white/5 group" data-aos="fade-up" data-aos-delay="200">
-                <div class="flex flex-col md:flex-row justify-between items-start mb-4">
-                    <div>
-                        <h4 class="text-2xl font-bold text-white group-hover:text-blue-400 transition-colors">Embedded System Intern</h4>
-                        <p class="text-slate-400 font-medium">KaaShiv Info Tech</p>
+        <section id="skills" class="py-24 px-6 max-w-6xl mx-auto">
+            <h3 class="text-3xl font-bold text-white mb-12 border-l-4 border-blue-600 pl-6" data-aos="fade-right">Technical Expertise</h3>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 text-center">
+                <div class="glass p-6 rounded-3xl group hover:border-blue-500/50" data-aos="zoom-in" data-tilt data-tilt-glare data-tilt-max-glare="0.3">
+                    <i class="fas fa-cloud text-blue-500 text-3xl mb-3 group-hover:scale-110 transition-transform"></i>
+                    <h4 class="text-sm font-bold text-white uppercase tracking-tighter">Apex</h4>
+                </div>
+                <div class="glass p-6 rounded-3xl group hover:border-blue-400/50" data-aos="zoom-in" data-aos-delay="100" data-tilt data-tilt-glare data-tilt-max-glare="0.3">
+                    <i class="fas fa-bolt text-yellow-500 text-3xl mb-3 group-hover:scale-110 transition-transform"></i>
+                    <h4 class="text-sm font-bold text-white uppercase tracking-tighter">LWC</h4>
+                </div>
+                <div class="glass p-6 rounded-3xl group hover:border-blue-300/50" data-aos="zoom-in" data-aos-delay="200" data-tilt data-tilt-glare data-tilt-max-glare="0.3">
+                    <i class="fas fa-layer-group text-blue-300 text-3xl mb-3 group-hover:scale-110 transition-transform"></i>
+                    <h4 class="text-sm font-bold text-white uppercase tracking-tighter">OmniStudio</h4>
+                </div>
+                <div class="glass p-6 rounded-3xl group hover:border-purple-500/50" data-aos="zoom-in" data-aos-delay="300" data-tilt data-tilt-glare data-tilt-max-glare="0.3">
+                    <i class="fas fa-robot text-purple-500 text-3xl mb-3 group-hover:scale-110 transition-transform"></i>
+                    <h4 class="text-sm font-bold text-white uppercase tracking-tighter">Agentforce</h4>
+                </div>
+                <div class="glass p-6 rounded-3xl group hover:border-green-500/50" data-aos="zoom-in" data-aos-delay="400" data-tilt data-tilt-glare data-tilt-max-glare="0.3">
+                    <i class="fas fa-shield-alt text-green-500 text-3xl mb-3 group-hover:scale-110 transition-transform"></i>
+                    <h4 class="text-sm font-bold text-white uppercase tracking-tighter">Financial Cloud</h4>
+                </div>
+                <div class="glass p-6 rounded-3xl group hover:border-orange-500/50" data-aos="zoom-in" data-aos-delay="500" data-tilt data-tilt-glare data-tilt-max-glare="0.3">
+                    <i class="fab fa-js text-orange-500 text-3xl mb-3 group-hover:scale-110 transition-transform"></i>
+                    <h4 class="text-sm font-bold text-white uppercase tracking-tighter">JavaScript</h4>
+                </div>
+            </div>
+            <div class="mt-10 flex flex-wrap justify-center gap-3" data-aos="fade-up">
+                <span class="px-4 py-1.5 bg-blue-500/5 border border-blue-500/20 rounded-full text-[10px] font-mono uppercase text-blue-400">OmniScripts</span>
+                <span class="px-4 py-1.5 bg-blue-500/5 border border-blue-500/20 rounded-full text-[10px] font-mono uppercase text-blue-400">FlexCards</span>
+                <span class="px-4 py-1.5 bg-blue-500/5 border border-blue-500/20 rounded-full text-[10px] font-mono uppercase text-blue-400">DataRaptors</span>
+                <span class="px-4 py-1.5 bg-blue-500/5 border border-blue-500/20 rounded-full text-[10px] font-mono uppercase text-blue-400">Integration Procedures</span>
+                <span class="px-4 py-1.5 bg-blue-500/5 border border-blue-500/20 rounded-full text-[10px] font-mono uppercase text-blue-400">Salesforce Flow</span>
+            </div>
+        </section>
+
+        <section id="projects" class="py-24 px-6 max-w-4xl mx-auto">
+            <h3 class="text-3xl font-bold text-white mb-12 border-l-4 border-blue-600 pl-6" data-aos="fade-right">Key Projects</h3>
+            <div class="space-y-12">
+                <div class="glass p-8 rounded-3xl border border-blue-500/20 group" data-aos="fade-up" data-tilt data-tilt-max="5">
+                    <div class="flex flex-col md:flex-row justify-between items-start mb-4">
+                        <h4 class="text-2xl font-bold text-white group-hover:text-blue-400 transition-colors">Liberty Mutual Modernization</h4>
+                        <span class="mt-2 md:mt-0 text-[10px] font-mono px-3 py-1 bg-blue-500/10 text-blue-500 rounded-full border border-blue-500/20 uppercase">OmniStudio</span>
                     </div>
-                    <span class="mt-2 md:mt-0 text-xs font-mono px-3 py-1 bg-slate-800 text-slate-400 rounded-full border border-white/10 uppercase">2023</span>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                        Transitioned from legacy Sales Cloud to Financial Services Cloud. Built guided processes using OmniScripts and FlexCards to modernize policy tracking and preference management.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2 py-1 bg-white/5 rounded text-[10px]">DataRaptor</span>
+                        <span class="px-2 py-1 bg-white/5 rounded text-[10px]">Integration Procedures</span>
+                        <span class="px-2 py-1 bg-white/5 rounded text-[10px]">LWC</span>
+                    </div>
                 </div>
-                <p class="text-slate-500 leading-relaxed">
-                    Focused on maximizing system performance using microprocessor-based hardware and embedded architecture.
-                </p>
-            </div>
-        </div>
-    </section>
 
-    <section id="certifications" class="py-24 px-6 max-w-6xl mx-auto">
-        <h3 class="text-3xl font-bold text-white mb-12 border-l-4 border-blue-600 pl-6" data-aos="fade-right">Credentials & Certifications</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div class="glass p-6 rounded-3xl border border-yellow-500/20 text-center" data-aos="zoom-in">
-                <a href="Agentforce_360_Certificate_Ravivarma_P.pdf" target="_blank" class="block group">
-                    <img src="Agentforce Rank.png" alt="Agentforce Rank" class="w-full h-32 object-contain mb-4 rounded-lg group-hover:scale-105 transition-transform">
-                    <h4 class="text-xl font-bold text-white mb-1">Agentforce 360</h4>
-                    <p class="text-slate-400 text-xs mb-2">Rank #203 | Team Astro</p>
-                    <span class="text-[10px] font-mono px-3 py-1 bg-yellow-500/10 text-yellow-500 rounded-full uppercase">Jan 2026</span>
-                </a>
+                <div class="glass p-8 rounded-3xl border border-white/5 group" data-aos="fade-up" data-aos-delay="200" data-tilt data-tilt-max="5">
+                    <div class="flex flex-col md:flex-row justify-between items-start mb-4">
+                        <h4 class="text-2xl font-bold text-white group-hover:text-blue-400 transition-colors">Cube-Sat Weather Forecasting</h4>
+                        <span class="mt-2 md:mt-0 text-[10px] font-mono px-3 py-1 bg-slate-800 text-slate-400 rounded-full border border-white/10 uppercase">IoT & Data</span>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                        Designed and built a system for real-time monitoring of atmospheric parameters like temperature and solar radiation using CubeSat technology.
+                    </p>
+                </div>
             </div>
+        </section>
 
-            <div class="glass p-6 rounded-3xl border border-blue-500/20 text-center" data-aos="zoom-in" data-aos-delay="100">
-                <a href="Ravivarma P OmnistudioDeveloper Salesforce Certificate.pdf" target="_blank" class="block">
-                    <div class="text-blue-500 text-4xl mb-4"><i class="fas fa-certificate"></i></div>
-                    <h4 class="text-xl font-bold text-white mb-1">OmniStudio Developer</h4>
-                    <p class="text-slate-400 text-xs mb-2">View Certificate</p>
-                    <span class="text-[10px] font-mono px-3 py-1 bg-blue-500/10 text-blue-500 rounded-full uppercase">Nov 2025</span>
-                </a>
-            </div>
+        <section id="experience" class="py-24 px-6 max-w-4xl mx-auto">
+            <h3 class="text-3xl font-bold text-white mb-12 border-l-4 border-blue-600 pl-6" data-aos="fade-right">Professional Experience</h3>
+            <div class="space-y-12">
+                <div class="glass p-8 rounded-3xl border border-blue-500/20 group" data-aos="fade-up" data-tilt>
+                    <div class="flex flex-col md:flex-row justify-between items-start mb-4">
+                        <div>
+                            <h4 class="text-2xl font-bold text-white group-hover:text-blue-400 transition-colors">Programmer Analyst Trainee</h4>
+                            <p class="text-blue-500 font-medium">Cognizant</p>
+                        </div>
+                        <span class="mt-2 md:mt-0 text-xs font-mono px-3 py-1 bg-blue-500/10 text-blue-500 rounded-full border border-blue-500/20 uppercase">2025 - Present</span>
+                    </div>
+                    <p class="text-slate-400 leading-relaxed">
+                        Developing dynamic interfaces with LWC and OmniScripts. Actively managing workflows in Agentforce for onboarding and marketing campaigns.
+                    </p>
+                </div>
 
-            <div class="glass p-6 rounded-3xl border border-blue-500/20 text-center" data-aos="zoom-in" data-aos-delay="200">
-                <a href="Ravivarma P PlatformAdministrator Salesforce Certificate.pdf" target="_blank" class="block">
-                    <div class="text-blue-500 text-4xl mb-4"><i class="fas fa-user-shield"></i></div>
-                    <h4 class="text-xl font-bold text-white mb-1">Platform Admin</h4>
-                    <p class="text-slate-400 text-xs mb-2">View Certificate</p>
-                    <span class="text-[10px] font-mono px-3 py-1 bg-blue-500/10 text-blue-500 rounded-full uppercase">Jan 2026</span>
-                </a>
+                <div class="glass p-8 rounded-3xl border border-white/5 group" data-aos="fade-up" data-aos-delay="200" data-tilt>
+                    <div class="flex flex-col md:flex-row justify-between items-start mb-4">
+                        <div>
+                            <h4 class="text-2xl font-bold text-white group-hover:text-blue-400 transition-colors">Embedded System Intern</h4>
+                            <p class="text-slate-400 font-medium">KaaShiv Info Tech</p>
+                        </div>
+                        <span class="mt-2 md:mt-0 text-xs font-mono px-3 py-1 bg-slate-800 text-slate-400 rounded-full border border-white/10 uppercase">2023</span>
+                    </div>
+                    <p class="text-slate-500 leading-relaxed">
+                        Focused on maximizing system performance using microprocessor-based hardware and embedded architecture.
+                    </p>
+                </div>
             </div>
+        </section>
 
-            <div class="glass p-6 rounded-3xl border border-purple-500/20 text-center" data-aos="zoom-in" data-aos-delay="300">
-                <a href="Ravivarma P AgentforceSpecialist Salesforce Certificate.pdf" target="_blank" class="block">
-                    <div class="text-purple-500 text-4xl mb-4"><i class="fas fa-robot"></i></div>
-                    <h4 class="text-xl font-bold text-white mb-1">Agentforce Spec</h4>
-                    <p class="text-slate-400 text-xs mb-2">View Certificate</p>
-                    <span class="text-[10px] font-mono px-3 py-1 bg-purple-500/10 text-purple-500 rounded-full uppercase">Nov 2025</span>
-                </a>
+        <footer id="contact" class="py-20 glass border-t border-white/5 mt-24 text-center">
+            <div class="max-w-4xl mx-auto px-6">
+                <div class="flex justify-center gap-8 mb-12">
+                    <a href="https://www.linkedin.com/in/ravivarma-p-6b18642b6" target="_blank" class="text-2xl hover:text-blue-500 transition-all hover:scale-125"><i class="fab fa-linkedin"></i></a>
+                    <a href="mailto:ravivarma6110@gmail.com" class="text-2xl hover:text-blue-500 transition-all hover:scale-125"><i class="fas fa-envelope"></i></a>
+                    <a href="https://github.com/Ravivarma1Ravi" target="_blank" class="text-2xl hover:text-blue-500 transition-all hover:scale-125"><i class="fab fa-github"></i></a>
+                </div>
+                <p class="text-slate-600 text-[10px] tracking-widest uppercase">RAVIVARMA P &copy; 2026. Salem, India</p>
             </div>
-        </div>
-    </section>
-
-    <footer id="contact" class="py-20 glass border-t border-white/5 mt-24 text-center">
-        <div class="max-w-4xl mx-auto px-6">
-            <div class="flex justify-center gap-8 mb-12">
-                <a href="https://www.linkedin.com/in/ravivarma-p-6b18642b6" target="_blank" class="text-2xl hover:text-blue-500 transition-all hover:scale-125"><i class="fab fa-linkedin"></i></a>
-                <a href="mailto:ravivarma.p@cognizant.com" class="text-2xl hover:text-blue-500 transition-all hover:scale-125"><i class="fas fa-envelope"></i></a>
-                <a href="https://github.com/Ravivarma1Ravi" target="_blank" class="text-2xl hover:text-blue-500 transition-all hover:scale-125"><i class="fab fa-github"></i></a>
-            </div>
-            <p class="text-slate-600 text-[10px] tracking-widest uppercase">RAVIVARMA P &copy; 2026. Salem, India</p>
-        </div>
-    </footer>
+        </footer>
+    </div>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
@@ -313,6 +323,69 @@
             const menu = document.getElementById('mobile-menu');
             menu.classList.toggle('active');
         }
+
+        // --- SCROLL LOGIC: PROGRESS BAR & HEADER OPACITY ---
+        const nav = document.getElementById('main-nav');
+        const progressBar = document.getElementById('scroll-progress');
+
+        window.addEventListener('scroll', () => {
+            // Update Progress Bar
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            progressBar.style.width = scrolled + "%";
+
+            // Update Header Background
+            if (window.scrollY > 50) {
+                nav.style.background = "rgba(5, 7, 10, 0.98)";
+                nav.style.borderBottom = "1px solid rgba(59, 130, 246, 0.3)";
+            } else {
+                nav.style.background = "rgba(5, 7, 10, 0.8)";
+                nav.style.borderBottom = "1px solid rgba(255, 255, 255, 0.05)";
+            }
+        });
+
+        // --- 3D THREE.JS BACKGROUND LOGIC ---
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('three-canvas'), alpha: true, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        const starsGeometry = new THREE.BufferGeometry();
+        const starsCount = 3000;
+        const posArray = new Float32Array(starsCount * 3);
+
+        for(let i=0; i < starsCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 2000;
+        }
+        starsGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const starsMaterial = new THREE.PointsMaterial({ size: 2, color: 0x3b82f6, transparent: true });
+        const starsMesh = new THREE.Points(starsGeometry, starsMaterial);
+        scene.add(starsMesh);
+
+        camera.position.z = 1;
+
+        function animateStars() {
+            requestAnimationFrame(animateStars);
+            starsMesh.rotation.y += 0.001;
+            starsMesh.rotation.x += 0.0005;
+            renderer.render(scene, camera);
+        }
+        animateStars();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // --- INITIALIZE VANILLA TILT FOR 3D CARDS ---
+        VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
+            max: 15,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.2,
+        });
     </script>
 </body>
 </html>
